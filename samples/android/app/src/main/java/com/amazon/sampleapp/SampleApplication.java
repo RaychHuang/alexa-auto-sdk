@@ -23,9 +23,17 @@ import com.google.android.gms.security.ProviderInstaller;
  * Application class
  */
 public class SampleApplication extends Application {
+
+    private static SampleApplication INSTANCE;
+
+    public static SampleApplication getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        INSTANCE = this;
         /**
          * The below code snippet is added due to a platform bug present in Android Pie that prevents
          * loading of http urls from loading over https protocol. The platform bug is that the security
