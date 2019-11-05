@@ -1,6 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/jingzeh/Documents/alexa-local-voice-control/release_keystore.jks')
+            storePassword 'Telenav'
+            keyAlias 'arp_keystore'
+            keyPassword 'Telenav'
+        }
+        debug {
+            storeFile file('/Users/jingzeh/Documents/alexa-local-voice-control/release_keystore.jks')
+            storePassword 'Telenav'
+            keyAlias 'arp_keystore'
+            keyPassword 'Telenav'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.amazon.sampleapp"
@@ -12,7 +26,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
     flavorDimensions "type"

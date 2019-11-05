@@ -1,10 +1,8 @@
 {
   "config": {
-    "clientId": "<YOUR DEVICE'S CLIENT ID>",
-    "productId" : "<YOUR DEVICE'S PRODUCT ID>"
-  },
-  "metrics" : {
-    "amazonId" : "<YOUR DEVICE'S AMAZON ID>",
-    "stage" : "<YOUR STAGING ENVIRONMENT: Beta, Gamma, Prod>"
+    "clientId": "amzn1.application-oa2-client.e2245a7091684378bbfad8e3b94ad025",
+    "clientSecret": "ce0c9f9aaa69ff845ee8f469b87fe4593447f14a054b623b3ace56c00d89515b",
+    "productId": "telenav_aac_sample",
+    "productDsn": "telenav123aac"
   }
 }
