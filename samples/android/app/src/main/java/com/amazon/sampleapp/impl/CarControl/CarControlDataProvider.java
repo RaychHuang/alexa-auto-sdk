@@ -297,6 +297,12 @@ public class CarControlDataProvider {
                 .addAssetId(CarControlAssets.Setting.DEFOG);
         m_boolControllers.put(genKey("rear.windshield", "defroster"), new BoolController());
 
+        // Trunk Light
+        config.createControl("trunk.light", CarControlConfiguration.Zone.ALL)
+                .addAssetId(CarControlAssets.Device.TRUNK_LIGHT)
+                .addPowerController(true);
+        m_boolControllers.put(genKey("trunk.light"), new BoolController());
+
         //---------------------------------------------------------------------
         // Create car lights. Add a power controller and mode controller to
         // change the color for ambient light.
@@ -390,10 +396,13 @@ public class CarControlDataProvider {
                     .addAssetId(CarControlAssets.Setting.AIR_RECIRCULATION)
                 .addToggleController("climate.sync", true)
                     .addAssetId(CarControlAssets.Setting.CLIMATE_SYNC)
+                .addToggleController("sunroof", true)
+                    .addAssetId("My.Sunroof")
                 .addToggleController("stabilitrak", true)
                     .addAssetId("My.Stabilitrak");
         m_boolControllers.put(genKey("car", "recirculate"), new BoolController());
         m_boolControllers.put(genKey("car", "climate.sync"), new BoolController());
+        m_boolControllers.put(genKey("car", "sunroof"), new BoolController());
         m_boolControllers.put(genKey("car", "stabilitrak"), new BoolController());
 
         return config;

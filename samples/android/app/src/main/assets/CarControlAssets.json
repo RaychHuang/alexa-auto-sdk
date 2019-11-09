@@ -12,6 +12,30 @@
           "synonyms": []
         }
       ]
+    },
+    {
+      "assetId": "My.Sunroof",
+      "values": [
+        {
+          "locales": [
+            "en-US"
+          ],
+          "defaultValue": "sunroof",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "assetId": "My.Radio",
+      "values": [
+        {
+          "locales": [
+            "en-US"
+          ],
+          "defaultValue": "radio",
+          "synonyms": ["music", "broadcast"]
+        }
+      ]
     }
   ]
 }
