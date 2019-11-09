@@ -72,7 +72,7 @@ public class FileUtils {
     public static void copyInputStreamToFile(InputStream srcInputStream, File destFile, boolean force) {
         if (!destFile.exists() || force) {
             if (destFile.getParentFile().exists() || destFile.getParentFile().mkdirs()) {
-                try (OutputStream os = new FileOutputStream(destFile)) {
+                try (OutputStream os = new FileOutputStream(destFile, false)) {
                     byte[] buf = new byte[1024];
                     int len;
                     while ((len = srcInputStream.read(buf)) > 0) {

@@ -51,6 +51,7 @@ import android.widget.Toast;
 import com.amazon.aace.alexa.AlexaClient;
 import com.amazon.aace.alexa.AlexaProperties;
 import com.amazon.aace.alexa.config.AlexaConfiguration;
+import com.amazon.aace.carControl.CarControlConfiguration;
 import com.amazon.aace.core.CoreProperties;
 import com.amazon.aace.core.Engine;
 import com.amazon.aace.core.config.ConfigurationFile;
@@ -372,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         FileUtils.copyAllAssets(getAssets(), "models", modelsDir, true);
 
         copyAsset("Contacts.json", new File(sampleDataDir, "Contacts.json"), false);
-        copyAsset("NavigationFavorites.json", new File(sampleDataDir, "NavigationFavorites.json"), false);
+        copyAsset("NavigationFavorites.json", new File(sampleDataDir, "NavigationFavorites.json"), true);
 
         // Create AAC engine
         mEngine = Engine.create(this);
@@ -508,6 +509,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         // Contacts/NavigationFavorites
         String sampleContactsDataPath = sampleDataDir.getPath() + "/Contacts.json";;
         String sampleNavigationFavoritesDataPath = sampleDataDir.getPath() + "/NavigationFavorites.json";
+        copyAsset("NavigationFavorites.json", new File(sampleDataDir, "NavigationFavorites.json"), true);
 
         // Always use sample data from external storage if available
         File sampleContactsFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Contacts.json");

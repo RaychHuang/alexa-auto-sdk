@@ -185,16 +185,16 @@
             },
             "postalAddress": {
                 "label": "Library",
-                "addressLine1": "2635 Homestead Rd",
+                "addressLine1": "500 El Camino Real",
                 "addressLine2": "",
                 "addressLine3": "",
                 "city": "Santa Clara",
                 "stateOrRegion": "CA",
                 "districtOrCounty": "",
-                "postalCode": "95051",
+                "postalCode": "95050",
                 "country": "US",
-                "latitudeInDegrees": 37.378445,
-                "longitudeInDegrees": 122.030780,
+                "latitudeInDegrees": 37.348037,
+                "longitudeInDegrees": -121.937940,
                 "accuracyInMeters": 9
             }
         },
@@ -219,6 +219,94 @@
                 "longitudeInDegrees": 122.378712,
                 "accuracyInMeters": 9
             }
+        },
+        {
+          "id": "111",
+          "name": {
+            "firstName": "Kitchen",
+            "lastName": "",
+            "nickName": ""
+          },
+          "postalAddress": {
+            "label": "Kitchen",
+            "addressLine1": "4655 Great America Pkwy",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "Santa Clara",
+            "stateOrRegion": "California",
+            "districtOrCounty": "",
+            "postalCode": "95054",
+            "country": "US",
+            "latitudeInDegrees": 37.398096,
+            "longitudeInDegrees": -121.977472,
+            "accuracyInMeters": 9
+          }
+        },
+        {
+          "id": "112",
+          "name": {
+            "firstName": "Telenav",
+            "lastName": "",
+            "nickName": ""
+          },
+          "postalAddress": {
+            "label": "Telenav",
+            "addressLine1": "4655 Great America Pkwy",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "Santa Clara",
+            "stateOrRegion": "California",
+            "districtOrCounty": "",
+            "postalCode": "95054",
+            "country": "US",
+            "latitudeInDegrees": 37.398096,
+            "longitudeInDegrees": -121.977472,
+            "accuracyInMeters": 9
+          }
+        },
+        {
+          "id": "113",
+          "name": {
+            "firstName": "Target",
+            "lastName": "",
+            "nickName": ""
+          },
+          "postalAddress": {
+            "label": "Target",
+            "addressLine1": "95 Holger Way",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "San Jose",
+            "stateOrRegion": "California",
+            "districtOrCounty": "",
+            "postalCode": "95134",
+            "country": "US",
+            "latitudeInDegrees": 37.418094,
+            "longitudeInDegrees": -121.956193,
+            "accuracyInMeters": 9
+          }
+        },
+        {
+          "id": "114",
+          "name": {
+            "firstName": "Starbucks",
+            "lastName": "",
+            "nickName": ""
+          },
+          "postalAddress": {
+            "label": "Starbucks",
+            "addressLine1": "95 Holger Way",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "San Jose",
+            "stateOrRegion": "California",
+            "districtOrCounty": "",
+            "postalCode": "95134",
+            "country": "US",
+            "latitudeInDegrees": 37.418094,
+            "longitudeInDegrees": -121.956193,
+            "accuracyInMeters": 9
+          }
         }
     ]
 }
