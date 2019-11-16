@@ -16,12 +16,14 @@
 package com.amazon.sampleapp;
 
 import android.Manifest;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -51,7 +53,6 @@ import android.widget.Toast;
 import com.amazon.aace.alexa.AlexaClient;
 import com.amazon.aace.alexa.AlexaProperties;
 import com.amazon.aace.alexa.config.AlexaConfiguration;
-import com.amazon.aace.carControl.CarControlConfiguration;
 import com.amazon.aace.core.CoreProperties;
 import com.amazon.aace.core.Engine;
 import com.amazon.aace.core.config.ConfigurationFile;
@@ -60,7 +61,8 @@ import com.amazon.aace.logger.Logger;
 import com.amazon.aace.navigation.NavigationProperties;
 import com.amazon.aace.storage.config.StorageConfiguration;
 import com.amazon.aace.vehicle.config.VehicleConfiguration;
-import com.amazon.aace.navigation.Navigation;
+import com.amazon.sampleapp.climate.ClimateViewModel;
+import com.amazon.sampleapp.databinding.ActivityMainBinding;
 import com.amazon.sampleapp.impl.Alerts.AlertsHandler;
 import com.amazon.sampleapp.impl.AlexaClient.AlexaClientHandler;
 import com.amazon.sampleapp.impl.AlexaSpeaker.AlexaSpeakerHandler;
@@ -102,7 +104,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Observable;
@@ -255,13 +256,15 @@ public class MainActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    private void create() {
+    private ActivityMainBinding mDataBinding;
 
+    private void create() {
+        mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         // Set the main view content
-        setContentView( R.layout.activity_main );
 
         // Initialize LVCInteractionService to start LVC, if supported
         initLVC();
+        initViewModel();
 
         // Add support action toolbar for action buttons
         setSupportActionBar( ( Toolbar ) findViewById( R.id.actionToolbar ) );
@@ -328,6 +331,15 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
         // Start LVCInteractionService to communicate with LVC
         startService(new Intent(this, LVCInteractionService.class));
+    }
+
+    ClimateViewModel mViewModel;
+
+    private void initViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(ClimateViewModel.class);
+        getLifecycle().addObserver(mViewModel);
+        mDataBinding.setLifecycleOwner(this);
+        mDataBinding.setCell(mViewModel.getClimateDataCell());
     }
 
     /**

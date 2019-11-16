@@ -17,11 +17,8 @@ package com.amazon.sampleapp.impl.CarControl;
 
 import android.content.Context;
 import com.amazon.aace.carControl.CarControl;
+import com.amazon.sampleapp.climate.ClimateDataManager;
 import com.amazon.sampleapp.impl.Logger.LoggerHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * This class demonstrates a how to handle Car Control platform interfaces.
@@ -75,6 +72,7 @@ public class CarControlHandler extends CarControl
                .append("State    : ").append(isOn ? "On" : "Off");
 
         mLogger.postInfo(sTag, message.toString());
+        ClimateDataManager.getInstance().getVoiceController().handlePowerController(endpointId, isOn);
 
         return isOn;
     }
@@ -120,6 +118,7 @@ public class CarControlHandler extends CarControl
                .append("State      : ").append(isOn ? "On" : "Off");
 
         mLogger.postInfo(sTag, message.toString());
+        ClimateDataManager.getInstance().getVoiceController().handleToggleController(endpointId, controllerId, isOn);
 
         return isOn;
     }
@@ -171,6 +170,7 @@ public class CarControlHandler extends CarControl
                .append("Value      : ").append(value);
 
         mLogger.postInfo(sTag, message.toString());
+        ClimateDataManager.getInstance().getVoiceController().handleRangeController(endpointId, controllerId, value);
 
         return value;
     }
@@ -222,6 +222,7 @@ public class CarControlHandler extends CarControl
                .append("Value      : ").append(value);
 
         mLogger.postInfo(sTag, message.toString());
+        ClimateDataManager.getInstance().getVoiceController().handleModeController(endpointId, controllerId, value);
 
         return value;
     }
