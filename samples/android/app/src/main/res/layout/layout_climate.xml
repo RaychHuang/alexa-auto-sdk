@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="cell"
+            type="com.amazon.sampleapp.climate.ClimateDataCell" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/cardview_dark_background">
+
+        <TextView
+            android:id="@+id/temperatureDriver"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text='@{"" + cell.climateData.temperature.driver + "°C"}'
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fanIntensityFront"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/fanIntensityFront"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text='@{"Fan: " + cell.climateData.fanSpeed.driver}'
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/temperatureDriver"
+            app:layout_constraintRight_toLeftOf="@id/temperaturePassenger"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/temperaturePassenger"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text='@{"" + cell.climateData.temperature.passenger + "°C"}'
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fanIntensityFront"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_up"
+            android:onClick="@{() -> cell.onTemperatureDriverClick(1)}"
+            app:layout_constraintLeft_toLeftOf="@id/temperatureDriver"
+            app:layout_constraintRight_toRightOf="@id/temperatureDriver"
+            app:layout_constraintBottom_toTopOf="@id/temperatureDriver"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_down"
+            android:onClick="@{() -> cell.onTemperatureDriverClick(-1)}"
+            app:layout_constraintTop_toBottomOf="@id/temperatureDriver"
+            app:layout_constraintLeft_toLeftOf="@id/temperatureDriver"
+            app:layout_constraintRight_toRightOf="@id/temperatureDriver"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_up"
+            android:onClick="@{() -> cell.onTemperaturePassengerClick(1)}"
+            app:layout_constraintLeft_toLeftOf="@id/temperaturePassenger"
+            app:layout_constraintRight_toRightOf="@id/temperaturePassenger"
+            app:layout_constraintBottom_toTopOf="@id/temperaturePassenger"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_down"
+            android:onClick="@{() -> cell.onTemperaturePassengerClick(-1)}"
+            app:layout_constraintTop_toBottomOf="@id/temperaturePassenger"
+            app:layout_constraintLeft_toLeftOf="@id/temperaturePassenger"
+            app:layout_constraintRight_toRightOf="@id/temperaturePassenger"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
