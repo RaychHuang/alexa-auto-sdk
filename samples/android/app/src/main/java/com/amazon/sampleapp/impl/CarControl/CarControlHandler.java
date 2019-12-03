@@ -17,7 +17,7 @@ package com.amazon.sampleapp.impl.CarControl;
 
 import android.content.Context;
 import com.amazon.aace.carControl.CarControl;
-import com.amazon.sampleapp.climate.ClimateDataManager;
+import com.amazon.sampleapp.climate.ClimateDataVoiceController;
 import com.amazon.sampleapp.impl.Logger.LoggerHandler;
 
 /**
@@ -29,9 +29,11 @@ public class CarControlHandler extends CarControl
     private static final String sTag = "CarControl";
 
     private LoggerHandler mLogger;
+    private ClimateDataVoiceController mVoiceController;
 
     public CarControlHandler( Context cCarControl, LoggerHandler logger ) {
         mLogger = logger;
+        this.mVoiceController = ClimateDataVoiceController.getInstance();
     }
 
     @Override
@@ -72,7 +74,7 @@ public class CarControlHandler extends CarControl
                .append("State    : ").append(isOn ? "On" : "Off");
 
         mLogger.postInfo(sTag, message.toString());
-        ClimateDataManager.getInstance().getVoiceController().handlePowerController(endpointId, isOn);
+        mVoiceController.handlePowerController(endpointId, isOn);
 
         return isOn;
     }
@@ -118,7 +120,7 @@ public class CarControlHandler extends CarControl
                .append("State      : ").append(isOn ? "On" : "Off");
 
         mLogger.postInfo(sTag, message.toString());
-        ClimateDataManager.getInstance().getVoiceController().handleToggleController(endpointId, controllerId, isOn);
+        mVoiceController.handleToggleController(endpointId, controllerId, isOn);
 
         return isOn;
     }
@@ -170,7 +172,7 @@ public class CarControlHandler extends CarControl
                .append("Value      : ").append(value);
 
         mLogger.postInfo(sTag, message.toString());
-        ClimateDataManager.getInstance().getVoiceController().handleRangeController(endpointId, controllerId, value);
+        mVoiceController.handleRangeController(endpointId, controllerId, value);
 
         return value;
     }
@@ -222,7 +224,7 @@ public class CarControlHandler extends CarControl
                .append("Value      : ").append(value);
 
         mLogger.postInfo(sTag, message.toString());
-        ClimateDataManager.getInstance().getVoiceController().handleModeController(endpointId, controllerId, value);
+        mVoiceController.handleModeController(endpointId, controllerId, value);
 
         return value;
     }

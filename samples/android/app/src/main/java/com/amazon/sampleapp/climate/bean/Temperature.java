@@ -53,8 +53,18 @@ public class Temperature {
             return this;
         }
 
+        public Builder adjustDriver(int delta) {
+            this.driver += delta;
+            return this;
+        }
+
         public Builder setPassenger(int temperature) {
             this.passenger = temperature;
+            return this;
+        }
+
+        public Builder adjustPassenger(int delta) {
+            this.passenger += delta;
             return this;
         }
     }

@@ -2,11 +2,13 @@ package com.amazon.sampleapp.climate.bean;
 
 public class ClimateData {
     public final Mode mode;
-    public final Temperature temperature;
+    public final Toggle toggle;
     public final FanSpeed fanSpeed;
+    public final Temperature temperature;
 
     private ClimateData(Builder builder) {
         this.mode = builder.mode.create();
+        this.toggle = builder.toggle.create();
         this.fanSpeed = builder.fanSpeed.create();
         this.temperature = builder.temperature.create();
     }
@@ -22,18 +24,23 @@ public class ClimateData {
     public Builder cloneToBuilder() {
         return builder()
                 .setMode(this.mode.cloneToBuilder())
+                .setToggle(this.toggle.cloneToBuilder())
                 .setFanSpeed(this.fanSpeed.cloneToBuilder())
                 .setTemperature(this.temperature.cloneToBuilder());
     }
 
     public static final class Builder {
         private Mode.Builder mode;
+        private Toggle.Builder toggle;
         private FanSpeed.Builder fanSpeed;
         private Temperature.Builder temperature;
 
         public ClimateData create() {
             if (mode == null) {
                 mode = Mode.builder();
+            }
+            if (toggle == null) {
+                toggle = Toggle.builder();
             }
             if (fanSpeed == null) {
                 fanSpeed = FanSpeed.builder();
@@ -51,6 +58,16 @@ public class ClimateData {
 
         public Builder modifyMode(Modification<Mode.Builder> modification) {
             this.mode = modification.update(this.mode);
+            return this;
+        }
+
+        public Builder setToggle(Toggle.Builder toggle) {
+            this.toggle = toggle;
+            return this;
+        }
+
+        public Builder modifyToggle(Modification<Toggle.Builder> modification) {
+            this.toggle = modification.update(this.toggle);
             return this;
         }
 

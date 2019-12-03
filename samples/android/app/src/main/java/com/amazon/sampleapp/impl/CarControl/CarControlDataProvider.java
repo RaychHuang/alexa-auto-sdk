@@ -289,6 +289,14 @@ public class CarControlDataProvider {
         //    Alexa turn on the window defroster
         //    Alexa turn off the window defroster
         //---------------------------------------------------------------------
+        config.createControl("front.windshield", CarControlConfiguration.Zone.FRONT)
+                .addAssetId(CarControlAssets.Device.WINDSHIELD)
+                .addAssetId(CarControlAssets.Device.WINDOW)
+                .addToggleController("defroster", true)
+                .addAssetId(CarControlAssets.Setting.DEFROST)
+                .addAssetId(CarControlAssets.Setting.DEFOG);
+        m_boolControllers.put(genKey("front.windshield", "defroster"), new BoolController());
+
         config.createControl("rear.windshield", CarControlConfiguration.Zone.REAR)
             .addAssetId(CarControlAssets.Device.WINDSHIELD)
             .addAssetId(CarControlAssets.Device.WINDOW)

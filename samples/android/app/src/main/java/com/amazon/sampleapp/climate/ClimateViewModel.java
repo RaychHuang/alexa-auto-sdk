@@ -1,43 +1,41 @@
 package com.amazon.sampleapp.climate;
 
+import android.annotation.SuppressLint;
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.arch.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class ClimateViewModel extends ViewModel implements LifecycleObserver {
+public class ClimateViewModel extends AndroidViewModel implements LifecycleObserver {
     private final ClimateDataCell mCell;
-    private final ClimateDataManager mDataManager;
-    private final ClimateDataTouchController mTouchController;
+    private final CompositeDisposable mDisposable;
+    private final ClimateDataVoiceController mVoiceController;
 
-    private CompositeDisposable mDisposable;
-
-    public ClimateViewModel() {
-        this(ClimateDataManager.getInstance());
+    public ClimateViewModel(Application application) {
+        this(application, ClimateDataVoiceController.getInstance());
     }
 
-    ClimateViewModel(ClimateDataManager manager) {
-        this.mCell = new ClimateDataCell();
-        this.mDataManager = manager;
-        this.mTouchController = manager.getTouchController();
+    ClimateViewModel(Application application, ClimateDataVoiceController voiceController) {
+        super(application);
+        this.mCell = new ClimateDataCell(new ClimateDataLocalSource(application.getApplicationContext()));
+        this.mDisposable = new CompositeDisposable();
+        this.mVoiceController = voiceController;
     }
 
+    @SuppressLint("CheckResult")
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
-        mDisposable = new CompositeDisposable();
-        mDisposable.add(mCell.observeClimateData(mDataManager.getClimateData()));
-        mDisposable.add(mTouchController.handleTemperatureDriverClick(mCell.getTemperatureDriver()));
-        mDisposable.add(mTouchController.handleTemperaturePassengerClick(mCell.getTemperaturePassenger()));
+        mCell.start();
+        mDisposable.add(mVoiceController.getClimateIntent().subscribe(mCell::sendIntent));
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onStop() {
-        if (mDisposable != null) {
-            mDisposable.dispose();
-            mDisposable = null;
-        }
+        mCell.stop();
+        mDisposable.clear();
     }
 
     public ClimateDataCell getClimateDataCell() {
