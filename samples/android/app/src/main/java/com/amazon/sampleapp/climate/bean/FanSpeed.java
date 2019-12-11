@@ -33,7 +33,7 @@ public class FanSpeed {
         private Builder() {
         }
 
-        public FanSpeed create() {
+        public FanSpeed build() {
             return new FanSpeed(this);
         }
 
@@ -43,9 +43,14 @@ public class FanSpeed {
         }
 
         public Builder setFront(int intensity) {
-            this.driver = intensity;
-            this.passenger = intensity;
+            int value = range(intensity);
+            this.driver = value;
+            this.passenger = value;
             return this;
+        }
+
+        public Builder adjustFront(int delta) {
+            return setFront(this.driver + delta);
         }
 
         public Builder setDriver(int intensity) {
@@ -56,6 +61,12 @@ public class FanSpeed {
         public Builder setPassenger(int intensity) {
             this.passenger = intensity;
             return this;
+        }
+
+        private int range(int value) {
+            value = Math.max(value, 0);
+            value = Math.min(value, 10);
+            return value;
         }
     }
 }

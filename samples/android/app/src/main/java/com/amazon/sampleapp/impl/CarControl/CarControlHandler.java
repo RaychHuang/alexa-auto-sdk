@@ -29,15 +29,20 @@ public class CarControlHandler extends CarControl
     private static final String sTag = "CarControl";
 
     private LoggerHandler mLogger;
-    private ClimateDataVoiceController mVoiceController;
+    private ClimateDataVoiceController mController;
 
-    public CarControlHandler( Context cCarControl, LoggerHandler logger ) {
+    public CarControlHandler(Context context, LoggerHandler logger) {
+        this(context, logger, ClimateDataVoiceController.getInstance());
+    }
+
+    public CarControlHandler(Context context, LoggerHandler logger, ClimateDataVoiceController controller) {
         mLogger = logger;
-        this.mVoiceController = ClimateDataVoiceController.getInstance();
+        mController = controller;
     }
 
     @Override
     public void turnPowerControllerOn(String endpointId) {
+        mController.setPower(endpointId, true);
         StringBuilder message = new StringBuilder("\n");
 
         CarControlDataProvider.getBoolController(endpointId).setValue(true);
@@ -51,6 +56,7 @@ public class CarControlHandler extends CarControl
 
     @Override
     public void turnPowerControllerOff(String endpointId) {
+        mController.setPower(endpointId, false);
         StringBuilder message = new StringBuilder("\n");
 
         CarControlDataProvider.getBoolController(endpointId).setValue(false);
@@ -74,13 +80,13 @@ public class CarControlHandler extends CarControl
                .append("State    : ").append(isOn ? "On" : "Off");
 
         mLogger.postInfo(sTag, message.toString());
-        mVoiceController.handlePowerController(endpointId, isOn);
 
         return isOn;
     }
 
     @Override
     public void turnToggleControllerOn(String endpointId, String controllerId) {
+        mController.setToggle(endpointId, controllerId, true);
         StringBuilder message = new StringBuilder("\n");
 
         CarControlDataProvider.getBoolController(endpointId, controllerId).setValue(true);
@@ -95,6 +101,7 @@ public class CarControlHandler extends CarControl
 
     @Override
     public void turnToggleControllerOff(String endpointId, String controllerId) {
+        mController.setToggle(endpointId, controllerId, false);
         StringBuilder message = new StringBuilder("\n");
 
         CarControlDataProvider.getBoolController(endpointId, controllerId).setValue(false);
@@ -120,13 +127,13 @@ public class CarControlHandler extends CarControl
                .append("State      : ").append(isOn ? "On" : "Off");
 
         mLogger.postInfo(sTag, message.toString());
-        mVoiceController.handleToggleController(endpointId, controllerId, isOn);
 
         return isOn;
     }
 
     @Override
     public void setRangeControllerValue(String endpointId, String controllerId, double value) {
+        mController.setRange(endpointId, controllerId, value);
         StringBuilder message = new StringBuilder("\n");
 
         CarControlDataProvider.getRangeController(endpointId, controllerId).setValue(value);
@@ -142,6 +149,7 @@ public class CarControlHandler extends CarControl
 
     @Override
     public void adjustRangeControllerValue(String endpointId, String controllerId, double delta) {
+        mController.adjustRange(endpointId, controllerId, delta);
         StringBuilder message = new StringBuilder("\n");
 
         double value = CarControlDataProvider.getRangeController(endpointId, controllerId).getValue();
@@ -172,13 +180,13 @@ public class CarControlHandler extends CarControl
                .append("Value      : ").append(value);
 
         mLogger.postInfo(sTag, message.toString());
-        mVoiceController.handleRangeController(endpointId, controllerId, value);
 
         return value;
     }
 
     @Override
     public void setModeControllerValue(String endpointId, String controllerId, String value) {
+        mController.setMode(endpointId, controllerId, value);
         StringBuilder message = new StringBuilder("\n");
 
         CarControlDataProvider.getModeController(endpointId, controllerId).setMode(value);
@@ -224,7 +232,6 @@ public class CarControlHandler extends CarControl
                .append("Value      : ").append(value);
 
         mLogger.postInfo(sTag, message.toString());
-        mVoiceController.handleModeController(endpointId, controllerId, value);
 
         return value;
     }

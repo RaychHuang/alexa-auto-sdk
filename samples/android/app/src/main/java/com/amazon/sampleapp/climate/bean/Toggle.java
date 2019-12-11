@@ -30,7 +30,7 @@ public class Toggle {
         private Builder() {
         }
 
-        public Toggle create() {
+        public Toggle build() {
             return new Toggle(this);
         }
 

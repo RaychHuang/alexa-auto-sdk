@@ -29,20 +29,25 @@ public class ClimateDataVoiceController {
         return mIntent;
     }
 
-    public void handlePowerController(String endpoint, final boolean isOn) {
+    public void setPower(String endpoint, final boolean isOn) {
         mIntent.onNext(ClimateIntent.createPowerIntent(endpoint, isOn));
     }
 
-    public void handleToggleController(String endpoint, String controller, final boolean isOn) {
+    public void setToggle(String endpoint, String controller, final boolean isOn) {
         mIntent.onNext(ClimateIntent.createToggleIntent(endpoint, controller, isOn));
     }
 
-    public void handleRangeController(String endpoint, String controller, final double value) {
+    public void setRange(String endpoint, String controller, final double value) {
         final int intValue = (int) Math.round(value);
-        mIntent.onNext(ClimateIntent.createRangeIntent(endpoint, controller, intValue));
+        mIntent.onNext(ClimateIntent.createSetRangeIntent(endpoint, controller, intValue));
     }
 
-    public void handleModeController(String endpoint, String controller, final String value) {
+    public void adjustRange(String endpoint, String controller, final double delta) {
+        final int value = (int) Math.round(delta);
+        mIntent.onNext(ClimateIntent.createAdjustRangeIntent(endpoint, controller, value));
+    }
+
+    public void setMode(String endpoint, String controller, final String value) {
         mIntent.onNext(ClimateIntent.createModeIntent(endpoint, controller, value));
     }
 }

@@ -133,9 +133,9 @@ public class CarControlDataProvider {
      */
     public static EngineConfiguration generateCarControlConfig() {
         // Define common values for speed range controllers
-        int SPEED_MIN = 1, SPEED_MEDIUM=5, SPEED_MAX = 10, SPEED_PRECISION = 1;
+        int SPEED_MIN = 0, SPEED_MEDIUM=5, SPEED_MAX = 10, SPEED_PRECISION = 1;
         // Define common values for temperature range controllers
-        int TEMPERATURE_MIN = 60, TEMPERATURE_MEDIUM=76, TEMPERATURE_MAX = 90, TEMPERATURE_PRECISION = 2;
+        int TEMPERATURE_MIN = 60, TEMPERATURE_MEDIUM=76, TEMPERATURE_MAX = 90, TEMPERATURE_PRECISION = 1;
 
         CarControlConfiguration config = CarControlConfiguration.create();
         //---------------------------------------------------------------------

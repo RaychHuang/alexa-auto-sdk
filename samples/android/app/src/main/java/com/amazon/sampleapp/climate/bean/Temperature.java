@@ -33,7 +33,7 @@ public class Temperature {
         private Builder() {
         }
 
-        public Temperature create() {
+        public Temperature build() {
             return new Temperature(this);
         }
 
@@ -43,29 +43,38 @@ public class Temperature {
         }
 
         public Builder setFirstRow(int temperature) {
-            this.driver = temperature;
-            this.passenger = temperature;
+            int value = range(temperature);
+            this.driver = value;
+            this.passenger = value;
             return this;
         }
 
+        public Builder adjustFirstRow(int delta) {
+            return setFirstRow(this.driver + delta);
+        }
+
         public Builder setDriver(int temperature) {
-            this.driver = temperature;
+            this.driver = range(temperature);
             return this;
         }
 
         public Builder adjustDriver(int delta) {
-            this.driver += delta;
-            return this;
+            return setDriver(this.driver + delta);
         }
 
         public Builder setPassenger(int temperature) {
-            this.passenger = temperature;
+            this.passenger = range(temperature);
             return this;
         }
 
         public Builder adjustPassenger(int delta) {
-            this.passenger += delta;
-            return this;
+            return setPassenger(this.passenger + delta);
+        }
+
+        private int range(int value) {
+            value = Math.max(value, 60);
+            value = Math.min(value, 90);
+            return value;
         }
     }
 }

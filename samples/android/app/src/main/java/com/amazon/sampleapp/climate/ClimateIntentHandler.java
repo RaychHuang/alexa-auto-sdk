@@ -25,7 +25,8 @@ class ClimateIntentHandler {
         } else if (intent instanceof ClimateIntent.Range) {
             ClimateIntent.Range rangeIntent = (ClimateIntent.Range) intent;
             int value = rangeIntent.getValue();
-            mod = handleRangeController(endpoint, controller, value);
+            boolean isDelta = rangeIntent.isDelta();
+            mod = handleRangeController(endpoint, controller, value, isDelta);
         } else if (intent instanceof ClimateIntent.Mode) {
             ClimateIntent.Mode modeIntent = (ClimateIntent.Mode) intent;
             String value = modeIntent.getValue();
@@ -41,10 +42,10 @@ class ClimateIntentHandler {
             mod = value
                     ? data -> data.cloneToBuilder()
                     .modifyMode(builder -> builder.setAcOn(true))
-                    .create()
+                    .build()
                     : data -> data.cloneToBuilder()
                     .modifyMode(builder -> builder.setAcOn(false).setAuto(false).setDual(false).setAcMax(false))
-                    .create();
+                    .build();
         }
         return mod;
     }
@@ -55,52 +56,50 @@ class ClimateIntentHandler {
             if ("car".equals(endpoint)) {
                 mod = data -> data.cloneToBuilder()
                         .modifyToggle(builder -> builder.setRecirculation(value))
-                        .create();
+                        .build();
             }
         } else if ("defroster".equals(controller)) {
             if ("front.windshield".equals(endpoint)) {
                 mod = data -> data.cloneToBuilder()
                         .modifyToggle(builder -> builder.setDefrostFront(value))
-                        .create();
+                        .build();
             } else if ("rear.windshield".equals(endpoint)) {
                 mod = data -> data.cloneToBuilder()
                         .modifyToggle(builder -> builder.setDefrostRear(value))
-                        .create();
+                        .build();
             }
         }
         return mod;
     }
 
-    private Modification<ClimateData> handleRangeController(String endpoint, String controller, int value) {
+    private Modification<ClimateData> handleRangeController(String endpoint, String controller, int value, boolean isDelta) {
         Modification<ClimateData> mod = SKIP;
         if ("temperature".equals(controller)) {
-            if (value < 60 || value > 90) {
-                return mod;
-            }
             if ("all.heater".equals(endpoint)) {
                 mod = data -> data.cloneToBuilder()
-                        .modifyMode(builder -> builder.setAcMax(false))
-                        .modifyTemperature(builder -> builder.setFirstRow(value))
-                        .create();
+                        .modifyMode(builder -> builder.setDual(false).setAcMax(false))
+                        .modifyTemperature(builder -> isDelta ? builder.adjustFirstRow(value)
+                                : builder.setFirstRow(value))
+                        .build();
             } else if ("driver.heater".equals(endpoint)) {
                 mod = data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setDual(true).setAcMax(false))
-                        .modifyTemperature(builder -> builder.setDriver(value))
-                        .create();
+                        .modifyTemperature(builder -> isDelta ? builder.adjustDriver(value)
+                                : builder.setDriver(value))
+                        .build();
             } else if ("passenger.heater".equals(endpoint)) {
                 mod = data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setDual(true).setAcMax(false))
-                        .modifyTemperature(builder -> builder.setPassenger(value))
-                        .create();
+                        .modifyTemperature(builder -> isDelta ? builder.adjustPassenger(value)
+                                : builder.setPassenger(value))
+                        .build();
             }
         } else if ("speed".equals(controller)) {
             if ("front.fan".equals(endpoint) || "all.fan".equals(endpoint)) {
-                if (value < 0 || value > 10) {
-                    return mod;
-                }
                 mod = data -> data.cloneToBuilder()
-                        .modifyFanSpeed(builder -> builder.setFront(value))
-                        .create();
+                        .modifyFanSpeed(builder -> isDelta ? builder.adjustFront(value)
+                                : builder.setFront(value))
+                        .build();
             }
         }
         return mod;
@@ -113,35 +112,35 @@ class ClimateIntentHandler {
                 mod = isOn
                         ? data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setAcOn(true).setAuto(true).setAcMax(false))
-                        .create()
+                        .build()
                         : data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setAcOn(true).setAuto(false))
-                        .create();
+                        .build();
             } else if ("ECONOMY".equals(value)) {
 
             } else if ("MANUAL".equals(value)) {
                 mod = data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setAcOn(true).setAuto(false))
-                        .create();
+                        .build();
             } else if ("HIGH".equals(value) || "MAXIMUM".equals(value)) {
                 mod = isOn
                         ? data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setAcOn(true).setAuto(false).setDual(false).setAcMax(true))
                         .modifyFanSpeed(builder -> builder.setFront(10))
                         .modifyTemperature(builder -> builder.setFirstRow(60))
-                        .create()
+                        .build()
                         : data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setAcOn(true).setAcMax(false))
-                        .create();
+                        .build();
             } else if ("DUAL".equals(value)) {
                 mod = isOn
                         ? data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setAcOn(true).setDual(true))
-                        .create()
+                        .build()
                         : data -> data.cloneToBuilder()
                         .modifyMode(builder -> builder.setAcOn(true).setDual(false))
                         .modifyTemperature(builder -> builder.setFirstRow(data.temperature.driver))
-                        .create();
+                        .build();
             }
         }
         return mod;

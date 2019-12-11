@@ -7,10 +7,10 @@ public class ClimateData {
     public final Temperature temperature;
 
     private ClimateData(Builder builder) {
-        this.mode = builder.mode.create();
-        this.toggle = builder.toggle.create();
-        this.fanSpeed = builder.fanSpeed.create();
-        this.temperature = builder.temperature.create();
+        this.mode = builder.mode.build();
+        this.toggle = builder.toggle.build();
+        this.fanSpeed = builder.fanSpeed.build();
+        this.temperature = builder.temperature.build();
     }
 
     public static Builder builder() {
@@ -18,7 +18,7 @@ public class ClimateData {
     }
 
     public static ClimateData createDefault() {
-        return builder().create();
+        return builder().build();
     }
 
     public Builder cloneToBuilder() {
@@ -35,7 +35,7 @@ public class ClimateData {
         private FanSpeed.Builder fanSpeed;
         private Temperature.Builder temperature;
 
-        public ClimateData create() {
+        public ClimateData build() {
             if (mode == null) {
                 mode = Mode.builder();
             }

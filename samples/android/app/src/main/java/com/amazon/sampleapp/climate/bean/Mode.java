@@ -38,7 +38,7 @@ public class Mode {
         private Builder() {
         }
 
-        public Mode create() {
+        public Mode build() {
             return new Mode(this);
         }
 

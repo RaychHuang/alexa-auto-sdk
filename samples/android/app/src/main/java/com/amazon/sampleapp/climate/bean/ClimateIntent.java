@@ -25,8 +25,12 @@ public class ClimateIntent {
         return new Toggle(endpoint, controller, value);
     }
 
-    public static Range createRangeIntent(String endpoint, String controller, int value) {
-        return new Range(endpoint, controller, value);
+    public static Range createSetRangeIntent(String endpoint, String controller, int value) {
+        return new Range(endpoint, controller, value, false);
+    }
+
+    public static Range createAdjustRangeIntent(String endpoint, String controller, int value) {
+        return new Range(endpoint, controller, value, true);
     }
 
     public static Mode createModeIntent(String endpoint, String controller, String value) {
@@ -65,14 +69,20 @@ public class ClimateIntent {
 
     public static class Range extends ClimateIntent {
         private final int value;
+        private final boolean isDelta;
 
-        public Range(String endpoint, String controller, int value) {
+        public Range(String endpoint, String controller, int value, boolean isDelta) {
             super(endpoint, controller);
             this.value = value;
+            this.isDelta = isDelta;
         }
 
         public int getValue() {
             return value;
+        }
+
+        public boolean isDelta() {
+            return isDelta;
         }
     }
 
